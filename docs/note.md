@@ -27,3 +27,33 @@ npx tsc --init
 # typescript compile
 npx tsc
 ```
+
+## 4. 타입스크립트 실행 방법 및 몇가지 팁
+
+1. 타입스크립트 정석적인 실행방법
+
+```shell
+# typescript compile
+npx tsc
+
+# 컴파일 된 js파일을 실행
+node index.js
+```
+
+2. `Code Runner` 사용
+
+- VSCode Extension `Code Runner` 설치
+- `npm install ts-node`
+- settings.json에 아래와 같이 설정
+
+```json
+  "code-runner.executorMap" : {
+    "typescript": "node_modules/.bin/ts-node"
+  }
+```
+
+- 줄단위/파일단위로 Code Runner를 실행하여 타입스크립트 실행 가능
+
+3. `Playground` 이용
+
+- Typescript 공식 홈페이지 내 Playground를 이용하여 실행

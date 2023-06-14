@@ -63,3 +63,29 @@ node index.js
 ## 1. 몇 가지 기본 타입1
 
 number, boolean, string, number[], Array<number>, [string, number]
+
+## 2. 몇 가지 기본 타입2
+
+- undefined, null, object, any
+- `ts의 array와 null은 js에서는 object 타입 판정임.`
+- 함수의 반환 타입
+  - void, never
+- 유니온 타입 (`|`)
+
+```typescript
+let v1: number | undefined; //number 또는 undefined 타입만 허용
+let v2: 10 | 20 | 30; //10, 20, 30 중 하나만 허용 (숫자와 문자열의 리터럴도 타입으로 사용 가능)
+```
+
+- 인터섹션 타입 (`&`)
+
+```typescript
+let v1: (1 | 3 | 5) & (3 | 5 | 7); //교집합인 3과 5만 허용
+```
+
+- `type` 키워드
+
+```typescript
+type Width = number | string; //type 키워드를 이용해 타입에 별칭 부여 가능
+let width: Width;
+```

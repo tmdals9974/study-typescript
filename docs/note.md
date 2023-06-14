@@ -57,3 +57,9 @@ node index.js
 3. `Playground` 이용
 
 - Typescript 공식 홈페이지 내 Playground를 이용하여 실행
+
+# Section 1. 타입 정의하기
+
+## 1. 몇 가지 기본 타입1
+
+number, boolean, string, number[], Array<number>, [string, number]

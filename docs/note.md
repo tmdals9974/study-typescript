@@ -89,3 +89,25 @@ let v1: (1 | 3 | 5) & (3 | 5 | 7); //교집합인 3과 5만 허용
 type Width = number | string; //type 키워드를 이용해 타입에 별칭 부여 가능
 let width: Width;
 ```
+
+## 3. enum 타입
+
+```typescript
+enum Fruit {
+  Apple,
+  Banana = 5,
+  Orange,
+} //자동으로 0, 5, 6 할당
+enum Language {
+  Korean = "ko",
+  English = "en",
+  Japanese = "jp",
+} //문자열 할당 가능
+const v1: Fruit = Fruit.Apple;
+const v2: Fruit.Apple | Fruit.Banana = Fruit.Banana; //enum 내 속성은 개별타입으로도 사용 가능
+
+const enum Item {
+  Mask,
+  Water,
+} // const enum을 사용 시 enum 객체는 생성되지 않고, 값 참조만 사용되기 때문에 번들 크기를 줄일 수 있다. 다만, enum 객체를 이용한 유틸리티 함수를 사용할 수 없다.
+```

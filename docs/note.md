@@ -111,3 +111,23 @@ const enum Item {
   Water,
 } // const enum을 사용 시 enum 객체는 생성되지 않고, 값 참조만 사용되기 때문에 번들 크기를 줄일 수 있다. 다만, enum 객체를 이용한 유틸리티 함수를 사용할 수 없다.
 ```
+
+## 4. 함수 타입1
+
+```typescript
+function getText(name: string, age: number=15, language?: string): string {
+  // 매개변수와 리턴타입 설정 가능.
+  // 선택 매개변수는 제일 뒤에 와야함. 중간에 넣고싶다면 age: number | undefined와 같은 방법으로 대체해야함.
+  // 선택 매개변수에는 기본값 부여 불가능.
+  const nameText = name.substr(0, 10);
+  const ageText = age >= 35 ? "senior" : "junior";
+  const languageText = language ? language.substr(0, 10) : "";
+  return `name: ${nameText}, age: ${ageText}, language: ${languageText}`;
+}
+
+function getText(name: string, ...rest: number[]): string {
+  // ... 를 이용하여 나머지 매개변수 (rest parameter)를 사용 가능.
+  // name 이후에 오는 모든 매개변수를 rest 변수에 배열로 담는 형식.
+  return "";
+}
+```

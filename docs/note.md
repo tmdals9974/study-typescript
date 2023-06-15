@@ -115,7 +115,7 @@ const enum Item {
 ## 4. 함수 타입1
 
 ```typescript
-function getText(name: string, age: number=15, language?: string): string {
+function getText(name: string, age: number = 15, language?: string): string {
   // 매개변수와 리턴타입 설정 가능.
   // 선택 매개변수는 제일 뒤에 와야함. 중간에 넣고싶다면 age: number | undefined와 같은 방법으로 대체해야함.
   // 선택 매개변수에는 기본값 부여 불가능.
@@ -130,4 +130,36 @@ function getText(name: string, ...rest: number[]): string {
   // name 이후에 오는 모든 매개변수를 rest 변수에 배열로 담는 형식.
   return "";
 }
+```
+
+## 5. 자바스크립트 this 이해하기
+
+```javascript
+function Counter() {
+  this.value = 0;
+  this.add = (amount) => {
+    //화살표 함수로 정의
+    this.value += amount;
+  };
+}
+
+const counter = new Counter(); // new 연산자로 함수를 호출하면 인스턴스가 생성됨.
+counter.add(5); //value = 5
+const add = counter.add;
+add(2); //value = 7. 화살표 함수의 this는, 화살표 함수가 생성될 당시의 this를 가리킨다.
+
+//==========================================
+
+function Counter2() {
+  this.value = 0;
+  this.add = function (amount) {
+    // 화살표함수가 아닌 일반함수로 정의
+    this.value += amount;
+  };
+}
+
+const counter2 = new Counter2();
+counter2.add(5); //value = 5
+const add2 = counter2.add;
+add2(2); //value = 2. 일반함수의 this는, 해당 함수를 호출한 주체를 가리킨다. counter2.add를 했을때는 counter2가 주체였으나, add2 에서는 주체가 없기때문에 전역 객체를 가리킨다. (브라우저: window/노드: global)
 ```

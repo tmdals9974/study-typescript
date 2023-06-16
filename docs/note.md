@@ -280,3 +280,33 @@ interface Korean extends Person {
   isLiveInSeoul: boolean;
 }
 ```
+
+## 8. 클래스
+
+```typescript
+class Person {
+  constructor(public name: string, public age: number) {} //typescript 편의기능. 생성자 매개변수에 접근제한자를 작성하면, 자동으로 멤버변수로 세팅해줌.
+  sayHello() {
+    console.log("person hello");
+  }
+}
+
+class Programmer extends Person {
+  private readonly height: number; //private 대신 # 사용 가능
+
+  constructor(name: string, age: number, height: number) {
+    super(name, age);
+    this.height = height;
+  }
+  fixBug() {
+    console.log("bug fixed");
+  }
+  sayHello() {
+    super.sayHello();
+    console.log("programmer hello");
+  }
+}
+
+const programmer = new Programmer("이승민", 29, 177);
+programmer.sayHello();
+```

@@ -208,3 +208,75 @@ function getText({ name, age = 15, language }: { name: string; age?: number; lan
 getText({ name: "aaa" });
 getText({ name: "aaa", age: 11 });
 ```
+
+## 7. 인터페이스
+
+```typescript
+//인터페이스로 객체의 타입을 정의
+interface Person {
+  readonly name: string; //읽기 전용. 이후 변경 불가.
+  age: number;
+  gender?: string; //선택 속성
+  [key: string]: string | number; //인덱스 타입. interface에서 속성 이름을 정의하지 않고 값의 타입만 정의하는 것을 의미함.
+}
+const p1: Person = { name: "name", age: 1, birthday: "950924" };
+
+// ==============================================
+
+interface YearPriceMap {
+  [year: number]: number; //속성 이름에 숫자와 문자열을 사용 가능. 속성 이름에 숫자를 입력 시, 내부적으로 문자열로 변환해서 사용함.
+  [year: string]: string | number; //윗 줄에서 number로 들어온 속성 이름이 문자열로 변환 되기 때문에,  ***속성의 타입은 반드시 Number를 포함해야함***
+  // *** 타입스크립트 4.4버전부터, 인덱스로 문자열을 입력해도 숫자로 파싱 가능하면 숫자로 인식하게 변경됨. ***
+}
+
+// ==============================================
+
+interface GetText {
+  (name: string, age: number): string;
+  totalCall?: number; // interface로 함수 타입을 정의할 때, 함수의 속성값도 같이 정의할 수 있음.
+}
+
+const getText: GetText = function (name, age) {
+  if (getText.totalCall !== undefined) {
+    getText.totalCall += 1; //함수 내부에서도 속성값 사용 가능
+    console.log(`totalCall: ${getText.totalCall}`);
+  }
+  return "";
+};
+
+getText.totalCall = 0;
+getText("", 0);
+
+// ==============================================
+
+interface Person {
+  name: string;
+  age: number;
+  isYoungerThan(age: number): boolean;
+}
+
+class SomePerson implements Person {
+  // interface는 class로 구현될 수 있음.
+  name: string;
+  age: number;
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+  isYoungerThan(age: number) {
+    return this.age < age;
+  }
+}
+
+// ==============================================
+
+interface Person {
+  name: string;
+  age: number;
+}
+
+interface Korean extends Person {
+  // extends 를 이용하여 기존 인터페이스를 확장 가능. 다중 확장 가능.
+  isLiveInSeoul: boolean;
+}
+```

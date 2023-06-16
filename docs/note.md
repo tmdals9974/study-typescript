@@ -163,3 +163,48 @@ counter2.add(5); //value = 5
 const add2 = counter2.add;
 add2(2); //value = 2. 일반함수의 this는, 해당 함수를 호출한 주체를 가리킨다. counter2.add를 했을때는 counter2가 주체였으나, add2 에서는 주체가 없기때문에 전역 객체를 가리킨다. (브라우저: window/노드: global)
 ```
+
+## 6. 함수 타입2
+
+```typescript
+function getParam(this: string, index: number): string {
+  //함수 매개변수 맨 앞에 this의 타입 정의 가능.
+  const params = this.split(",");
+  if (index < 0 || params.index <= index) {
+    return "";
+  }
+  return this.split(",")[index];
+}
+
+interface String {
+  getParam(this: string, index: number): string;
+}
+String.prototype.getParam = getParam;
+
+// ==============================================
+
+function add(x: number, y: number): number; //함수 오버로드를 통해 상세한 타입 정의가 가능
+function add(x: string, y: string): string; //함수 오버로드를 통해 상세한 타입 정의가 가능
+function add(x: number | string, y: number | string): number | string {
+  /**
+   * 요구사항
+   * x,y가 모두 number일 때 number 반환
+   * x,y가 모두 string일 때 string 반환
+   * 그 외의 타입은 허용하지 않음 (x number y string 도 불가)
+   */
+  if (typeof x === "number" && typeof y === "number") return x + y;
+  return (Number(x) + Number(y)).toString();
+}
+const v1: number = add(1, 2);
+const v2: string = add(1, "2");
+
+// ==============================================
+
+function getText({ name, age = 15, language }: { name: string; age?: number; language?: string }): string {
+  // named parameter: 매개변수에 이름을 부여해줌.
+  return "";
+}
+
+getText({ name: "aaa" });
+getText({ name: "aaa", age: 11 });
+```

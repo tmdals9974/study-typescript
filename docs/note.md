@@ -358,3 +358,45 @@ f1 = f2;
 f4 = f3;
 //f3 = f4; //error
 ```
+
+# Section 3. 타입스크립트 고급 기능
+
+## 1. 제네릭
+
+- 제네릭? 타입 정보가 동적으로 결정되는 타입.
+- `src/generic.ts` 참고
+
+```typescript
+function makeArray<T>(defaultValue: T, size: number): T[] {
+  const arr: T[] = [];
+  for (let i = 0; i < size; i++) {
+    arr.push(defaultValue);
+  }
+  return arr;
+}
+const arr1 = makeArray<number>(1, 10);
+const arr2 = makeArray<string>("empty", 10);
+
+// ===================================
+
+class Stack<D> {
+  private items: D[] = [];
+  push(item: D) {
+    this.items.push(item);
+  }
+  pop() {
+    return this.items.pop();
+  }
+}
+const numberStack = new Stack<number>();
+numberStack.push(10);
+
+// =======================================
+
+function identity<T extends number | string>(p1: T): T {
+  return p1;
+}
+identity(1);
+identity("a");
+ //identity([]); //error  
+```

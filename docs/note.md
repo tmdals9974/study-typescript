@@ -310,3 +310,51 @@ class Programmer extends Person {
 const programmer = new Programmer("이승민", 29, 177);
 programmer.sayHello();
 ```
+
+# Section 2. 타입 호환성
+
+## 1. 타입 호환성
+
+- 타입 호환성? 어떤 타입을 다른 타입으로 취급해도 되는 지 판단 하는 것
+- 타입스크립트는 `값 자체의 타입`보다는 `값이 가진 내부 구조`에 기반하여 타입 호환성을 검사한다.
+- 인터페이스 A가 인터페이스 B로 할당 가능 하기 위한 조건
+  1. B에 있는 모든 필수 속성의 이름이 A에도 존재해야 한다. (속성명)
+  2. 같은 속성 이름에 대해, A의 속성이 B의 속성에 할당 가능해야 한다. (속성타입)
+
+```typescript
+interface Person {
+  name: string;
+  age: number;
+}
+interface Product {
+  name: string;
+  age: number;
+}
+const person: Person = { name: "mike", age: 23 };
+const product: Product = person; //Person과 Product의 내부 구조가 같기에 가능.
+```
+
+- 함수 타입 A가 함수 타입 B로 할당 가능하기 위한 조건
+  1. A의 매개변수 개수가 B의 매개변수 개수보다 적어야 한다.
+  2. 같은 위치의 매개변수에 대해 B의 매개변수가 A의 매개변수로 할당 가능해야 한다.
+  3. A의 반환값은 B의 반환값으로 할당 가능해야 한다.
+
+```typescript
+type F1 = (a: number, b: string) => string;
+type F2 = (a: number, b: string | number) => string;
+type F3 = (a: number) => string;
+type F4 = (a: number) => number | string;
+let f1: F1 = (a, b) => `${a} ${b.length}`;
+let f2: F2 = (a, b) => `${a} ${b}`;
+let f3: F3 = (a) => `${a}`;
+let f4: F4 = (a) => (a < 10 ? a : "too big");
+
+f1 = f3;
+//f3 = f1; //error
+
+f1 = f2;
+//f2 = f1; //error
+
+f4 = f3;
+//f3 = f4; //error
+```

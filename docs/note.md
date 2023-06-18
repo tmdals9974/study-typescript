@@ -398,5 +398,25 @@ function identity<T extends number | string>(p1: T): T {
 }
 identity(1);
 identity("a");
- //identity([]); //error  
+//identity([]); //error
+```
+
+## 2. 맵드 타입
+
+- `src/mapped-type.ts` 참고
+
+```typescript
+type T1 = { [K in "prop1" | "prop2"]: boolean }; //T1 = { prop1: boolean; prop2: boolean; }
+
+//==========================================
+
+interface Person {
+  name: string;
+  age: number;
+}
+
+type MakeBoolean<T> = { [P in keyof T]?: boolean };
+const pMap: MakeBoolean<Person> = {};
+pMap.name = true;
+pMap.age = false;
 ```

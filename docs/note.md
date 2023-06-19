@@ -420,3 +420,18 @@ const pMap: MakeBoolean<Person> = {};
 pMap.name = true;
 pMap.age = false;
 ```
+
+## 3. 조건부 타입
+
+- `src/conditional.ts` 참고
+
+```typescript
+// T extends U ? X : Y
+type IsStringType<T> = T extends string ? "yes" : "no"; //값이 아닌 'yes'/'no' 문자열 리터럴 타입을 할당
+type T1 = IsStringType<string>; // type T1 = "yes"
+type T2 = IsStringType<number>; // type T2 = "no"
+type T3 = IsStringType<string | number>; // type T3 = "yes" | "no"     =>  조건부 타입일 경우, 유니온이 IsStringType<string> | IsStringType<number> 로 해석되기 때문임.
+
+type Array2<T> = Array<T>;
+type T4 = Array2<string | number>; // 조건부 타입이 아니기 때문에 string[] | number[] 가 아니라 (string | number)[] 로 해석됨
+```

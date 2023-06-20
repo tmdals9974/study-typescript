@@ -364,7 +364,7 @@ f4 = f3;
 ## 1. 제네릭
 
 - 제네릭? 타입 정보가 동적으로 결정되는 타입.
-- `src/generic.ts` 참고
+- `learning-notes/generic.ts` 참고
 
 ```typescript
 function makeArray<T>(defaultValue: T, size: number): T[] {
@@ -403,7 +403,7 @@ identity("a");
 
 ## 2. 맵드 타입
 
-- `src/mapped-type.ts` 참고
+- `learning-notes/mapped-type.ts` 참고
 
 ```typescript
 type T1 = { [K in "prop1" | "prop2"]: boolean }; //T1 = { prop1: boolean; prop2: boolean; }
@@ -423,7 +423,7 @@ pMap.age = false;
 
 ## 3. 조건부 타입
 
-- `src/conditional.ts` 참고
+- `learning-notes/conditional.ts` 참고
 
 ```typescript
 // T extends U ? X : Y
@@ -598,3 +598,8 @@ function print(value: Person | Product) {
   }
 }
 ```
+
+# Section 5. 실습 프로젝트
+
+- Todo List를 콘솔로 관리하는 프로젝트 (조회/추가/삭제)
+- `src/` 하위 폴더 구성

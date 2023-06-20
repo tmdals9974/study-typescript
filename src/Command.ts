@@ -1,5 +1,5 @@
 import { waitForInput } from "./Input";
-import { Action, ActionNewTodo, AppState, PRIORITY_NAME_MAP, Priority } from "./type";
+import { Action, ActionDeleteTodo, ActionNewTodo, AppState, PRIORITY_NAME_MAP, Priority } from "./type";
 import { getIsValidEnumValue } from "./util";
 
 export abstract class Command {
@@ -51,5 +51,25 @@ export class CommandNewTodo extends Command {
   }
   static getIsPriority(priority: number): priority is Priority {
     return getIsValidEnumValue(Priority, priority);
+  }
+}
+
+export class CommandDeleteTodo extends Command {
+  constructor() {
+    super("d", "할 일 제거하기");
+  }
+  async run(state: AppState): Promise<void | ActionDeleteTodo> {
+    for (const todo of state.todos) {
+      const text = todo.toString();
+      console.log(text);
+    }
+
+    const idStr = await waitForInput("press todo id to delete: ");
+    const id = Number(idStr);
+
+    return {
+      type: "deleteTodo",
+      id,
+    };
   }
 }

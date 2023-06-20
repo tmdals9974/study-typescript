@@ -435,3 +435,64 @@ type T3 = IsStringType<string | number>; // type T3 = "yes" | "no"     =>  조�
 type Array2<T> = Array<T>;
 type T4 = Array2<string | number>; // 조건부 타입이 아니기 때문에 string[] | number[] 가 아니라 (string | number)[] 로 해석됨
 ```
+
+# Section 4. 생산성을 높이는 타입스크립트의 기능
+
+## 1. 타입 추론
+
+- 타입 추론으로 인해 코드(타입 정의)를 덜 작성하면서도 같은 수준의 타입 안정성을 유지 할 수 있다.
+
+```typescript
+let v1 = 123; //타입 추론으로 인해 number 타입
+let v2 = "abc"; //타입 추론으로 인해 string 타입
+let v3: typeof v1 = 234; //가능
+
+const v4 = 123; //재할당 불가능한 const이기에 123 타입
+const v5 = "abc"; //재할당 불가능한 const이기에 'abc' 타입
+//let v6: typeof v4 = 234; //불가능, 123만 가능
+
+const arr1 = [10, 20, 30]; //number[]
+const [n1, n2, n3] = arr1; //비구조화할당이지만 n1,n2,n3 모두 number로 자동추론
+//arr1.push("a");  //에러
+
+const obj = { id: "abcd", age: 123, language: "korean" }; //타입추론 { id: string; age: number; language: string; }
+const { id, age, language } = obj; //자동 타입추론
+
+// ===========================================
+
+interface Person {
+  name: string;
+  age: number;
+}
+interface Korean extends Person {
+  liveInSeoul: boolean;
+}
+interface Japanese extends Person {
+  liveInTokyo: boolean;
+}
+
+const p1: Person = { name: "mike", age: 23 };
+const p2: Korean = { name: "mike", age: 25, liveInSeoul: true };
+const p3: Japanese = { name: "mike", age: 27, liveInTokyo: false };
+
+const arr1 = [p1, p2, p3]; //Person[]
+const arr2 = [p2, p3]; //(Korean | Japanese)[]
+
+// ===========================================
+
+function func1(a = "abc", b = 10) {
+  //func1(a?: string, b?: number): string 으로 타입추론
+  return `${a} ${b}`;
+}
+//func1(3, 6); //타입 에러
+//const v1: number = func1("a", 1); //타입 에러
+
+function func2(value: number) {
+  //func2(value: number): string | number
+  if (value < 10) {
+    return value;
+  } else {
+    return `${value} is too big`;
+  }
+}
+```

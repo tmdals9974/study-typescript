@@ -496,3 +496,105 @@ function func2(value: number) {
   }
 }
 ```
+
+## 2. 타입 가드
+
+```typescript
+function print(value: number | string) {
+  if (typeof value === "number") {
+    //console.log((value as number).toFixed(2)); //as는 값의 타입을 개발자가 확신하는 경우에 입력하여 타입을 강제하는 기능. 사용을 지양해야하는 기능
+    console.log(value.toFixed(2)); //타입가드 기능 덕에 윗 줄의 코드처럼 as를 사용하지 않아도, if문을 분석하여 value를 number타입으로 바꿔줌.
+  } else {
+    //console.log((value as string).trim());
+    console.log(value.trim());
+  }
+}
+
+// ==========================================
+
+class Person {
+  age: number;
+  constructor(age: number) {
+    this.age = age;
+  }
+}
+class Product {
+  name: string;
+  constructor(name: string) {
+    this.name = name;
+  }
+}
+function print(value: Person | Product) {
+  if (value instanceof Person) {
+    //class이기 때문에 instanceof 사용 가능, 타입가드 작동
+    console.log(value.age);
+  } else {
+    console.log(value.name);
+  }
+}
+
+// ==========================================
+
+interface Person {
+  type: "a";
+  age: number;
+}
+interface Product {
+  type: "b";
+  name: string;
+}
+function print(value: Person | Product) {
+  // if (value instanceof Person) {} //interface는 instanceof 가 불가능하기에 에러 발생
+  // if (value.type === "a") {} //인터페이스에 식별 가능한 유니온 타입을 추가하여 비교. 타입가드 작동 가능.
+  switch (
+    value.type //식별 가능한 유니온 타입은 switch 문에 적합
+  ) {
+    case "a":
+      console.log(value.age);
+      break;
+    case "b":
+      console.log(value.name);
+      break;
+  }
+}
+
+// ==========================================
+interface Person {
+  age: number;
+}
+interface Product {
+  name: string;
+}
+
+// 타입을 검사하는 함수를 작성하여 타입가드 이용 가능
+function isPerson(x: Person | Product): x is Person {
+  //반환타입 : Person인지 검사하는 함수임을 작성
+  return (x as Person).age !== undefined;
+}
+
+function print(value: Person | Product) {
+  if (isPerson(value)) {
+    console.log(value.age);
+  } else {
+    console.log(value.name);
+  }
+}
+
+// ==========================================
+
+interface Person {
+  age: number;
+}
+interface Product {
+  name: string;
+}
+
+function print(value: Person | Product) {
+  if ("age" in value) {
+    // 속성 존재 여부를 검사하는 in 기능을 이용하여 타입가드 이용 가능
+    console.log(value.age);
+  } else {
+    console.log(value.name);
+  }
+}
+```
